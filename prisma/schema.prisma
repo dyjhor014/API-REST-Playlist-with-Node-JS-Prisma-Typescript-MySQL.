@@ -17,7 +17,7 @@ model User {
   password     String
   last_session DateTime   @default(now())
   updated_at   DateTime   @updatedAt
-  date_born    DateTime
+  date_born    DateTime   @default(now())
   created_at   DateTime   @default(now())
   playlist     Playlist[]
 

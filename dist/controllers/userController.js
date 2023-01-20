@@ -9,35 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addUser = exports.findAll = void 0;
+exports.userController = void 0;
 const client_1 = require("@prisma/client");
-const helpers_1 = require("../../helpers");
 const prisma = new client_1.PrismaClient();
-const findAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const users = yield prisma.user.findMany();
-        res.status(200).json({
-            ok: true,
-            data: users,
+class userController {
+    static getUsuario(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const users = yield prisma.user.findMany();
+            res.json(users);
         });
     }
-    catch (error) {
-        res.status(500).json({ ok: false, message: error });
-    }
-});
-exports.findAll = findAll;
-const addUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const data = req.body;
-        data.password = yield (0, helpers_1.encryptPass)(data.password);
-        yield prisma.user.create({ data });
-        res.status(201).json({
-            ok: true,
-            message: "User created"
+    static createUsuario(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { name, email, password } = req.body;
+            const user = yield prisma.user.create({
+                data: {
+                    name: name,
+                    email: email,
+                    password: password
+                },
+            });
+            res.json({ message: 'Usuario creado exitosamente', user: user });
         });
     }
-    catch (error) {
-        res.status(401).json({ ok: false, message: error });
-    }
-});
-exports.addUser = addUser;
+}
+exports.userController = userController;
