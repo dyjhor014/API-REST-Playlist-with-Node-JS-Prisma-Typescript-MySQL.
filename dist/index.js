@@ -7,6 +7,7 @@ require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const userRoute_1 = require("./routes/userRoute");
+const songRoute_1 = require("./routes/songRoute");
 const PORT = process.env.PORT || 3000;
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -15,6 +16,7 @@ app.get('/', (_req, _res) => {
     _res.send("Funcionando");
 });
 app.use('/api/v1', userRoute_1.usuarioRouter);
+app.use('/api/v1', songRoute_1.songRouter);
 app.listen(PORT, () => {
     console.log(`server at running http://localhost:${PORT}`);
 });

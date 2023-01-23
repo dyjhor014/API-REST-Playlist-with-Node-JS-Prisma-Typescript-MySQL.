@@ -18,7 +18,7 @@ export class userController {
                 password: hashedPassword
             },
         });
-        res.json({ message: 'Usuario creado exitosamente', user: user });
+        res.status(201).json({ message: 'Usuario creado exitosamente', user: user });
       }
 
     static async login(req: Request, res: Response) {
@@ -27,7 +27,7 @@ export class userController {
             const isPasswordMatched = bcryptjs.compareSync(req.body.password, user.password)
             if (isPasswordMatched) {
             // Generar y devolver un token de sesión para el usuario
-            res.status(201).json({ message: "successful login" });
+            res.status(200).json({ message: "successful login" });
             } else {
             res.status(401).json({error: "Invalid email or password"})
             }
