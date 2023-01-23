@@ -15,7 +15,11 @@ const prisma = new client_1.PrismaClient();
 class playlistController {
     static listPlaylist(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const playlists = yield prisma.playlist.findMany();
+            const playlists = yield prisma.playlist.findMany({
+                include: {
+                    songs: true,
+                }
+            });
             res.status(200).json(playlists);
         });
     }
@@ -31,7 +35,7 @@ class playlistController {
                         }
                     },
                     songs: {
-                        connect: songs.map((id) => ({ id }))
+                        connect: [{ id: songs }]
                     }
                 },
             });
@@ -40,6 +44,16 @@ class playlistController {
     }
     static addSongs(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const { songs, id } = req.body;
+            const addSong = yield prisma.playlist.update({
+                where: { id },
+                data: {
+                    songs: {
+                        connect: songs.map((id) => ({ id }))
+                    },
+                },
+            });
+            res.status(201).json({ message: 'Playlist actualizada exitosamente', playlist: addSong });
         });
     }
 }

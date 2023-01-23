@@ -11,5 +11,5 @@ exports.playlistRouter = router;
 router.route('/playlist')
     .post(playlistController_1.playlistController.createPlaylist)
     .get(playlistController_1.playlistController.listPlaylist);
-router.route('/playlist/addSongs')
+router.route('/playlist/addsongs')
     .post(playlistController_1.playlistController.addSongs);

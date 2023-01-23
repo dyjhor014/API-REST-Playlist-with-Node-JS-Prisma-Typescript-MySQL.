@@ -7,7 +7,7 @@ router.route('/playlist')
     .post(playlistController.createPlaylist)
     .get(playlistController.listPlaylist)
 
-router.route('/playlist/addSongs')
+router.route('/playlist/addsongs')
     .post(playlistController.addSongs)
 
 export { router as playlistRouter };
