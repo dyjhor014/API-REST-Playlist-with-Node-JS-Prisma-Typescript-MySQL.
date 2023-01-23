@@ -6,6 +6,12 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export class userController {
+
+    static async listUsuario(req: Request, res: Response) {
+        const user = await prisma.user.findMany()
+        res.status(201).json(user)
+    }
+
     static async createUsuario(req: Request, res: Response) {
         // Crear un nuevo usuario en la base de datos
         const { name, email, password } = req.body;

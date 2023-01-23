@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from "cors";
 import { usuarioRouter } from './routes/userRoute';
 import { songRouter } from './routes/songRoute';
+import { playlistRouter } from './routes/playlistRoute';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -15,6 +16,7 @@ app.get('/', (_req, _res) =>{
 
 app.use('/api/v1', usuarioRouter);
 app.use('/api/v1', songRouter);
+app.use('/api/v1', playlistRouter);
 
 app.listen(PORT, () => {
     console.log(`server at running http://localhost:${PORT}`)

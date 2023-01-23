@@ -17,6 +17,12 @@ const client_1 = require("@prisma/client");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const prisma = new client_1.PrismaClient();
 class userController {
+    static listUsuario(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield prisma.user.findMany();
+            res.status(201).json(user);
+        });
+    }
     static createUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password } = req.body;

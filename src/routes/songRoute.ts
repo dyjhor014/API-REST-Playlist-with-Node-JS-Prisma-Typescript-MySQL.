@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { songController } from '../controllers/songController';
 
 const router = express.Router();

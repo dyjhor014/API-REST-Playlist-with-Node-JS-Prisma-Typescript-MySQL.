@@ -28,7 +28,7 @@ export class songController {
         const { id } = req.params;
         const song = await prisma.song.findFirst({
             where: { id : Number(id)} 
-        })
+        });
         res.status(200).json(song);
     }
   }
