@@ -4,7 +4,9 @@ import { userController } from '../controllers/userController';
 const router = express.Router();
 
 router.route('/users')
-  .get(userController.getUsuario)
-  .post(userController.createUsuario)
+    .post(userController.createUsuario)
+
+router.route('/users/login')
+    .post(userController.login)
 
 export { router as usuarioRouter };

@@ -1,15 +1,11 @@
 import type { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import bcryptjs from "bcryptjs"
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
 export class userController {
-    static async getUsuario(req: Request, res: Response) {
-      // Obtener información del usuario de la base de datos
-      const users = await prisma.user.findMany();
-      res.json(users);
-    }
     static async createUsuario(req: Request, res: Response) {
         // Crear un nuevo usuario en la base de datos
         const { name, email, password } = req.body;
@@ -24,4 +20,19 @@ export class userController {
         });
         res.json({ message: 'Usuario creado exitosamente', user: user });
       }
+
+    static async login(req: Request, res: Response) {
+        const user = await prisma.user.findUnique({ where: { email: req.body.email } });
+        if(user){
+            const isPasswordMatched = bcryptjs.compareSync(req.body.password, user.password)
+            if (isPasswordMatched) {
+            // Generar y devolver un token de sesión para el usuario
+            res.status(201).json({ message: "successful login" });
+            } else {
+            res.status(401).json({error: "Invalid email or password"})
+            }
+        }else{
+        res.status(401).json({error: "Invalid email or password"})
+        }
+    }
   }

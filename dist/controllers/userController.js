@@ -17,12 +17,6 @@ const client_1 = require("@prisma/client");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const prisma = new client_1.PrismaClient();
 class userController {
-    static getUsuario(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const users = yield prisma.user.findMany();
-            res.json(users);
-        });
-    }
     static createUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password } = req.body;
@@ -36,6 +30,23 @@ class userController {
                 },
             });
             res.json({ message: 'Usuario creado exitosamente', user: user });
+        });
+    }
+    static login(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield prisma.user.findUnique({ where: { email: req.body.email } });
+            if (user) {
+                const isPasswordMatched = bcryptjs_1.default.compareSync(req.body.password, user.password);
+                if (isPasswordMatched) {
+                    res.status(201).json({ message: "successful login" });
+                }
+                else {
+                    res.status(401).json({ error: "Invalid email or password" });
+                }
+            }
+            else {
+                res.status(401).json({ error: "Invalid email or password" });
+            }
         });
     }
 }
