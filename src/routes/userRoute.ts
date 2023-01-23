@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.route('/users')
   .get(userController.getUsuario)
-  .post(userController.createUsuario);
+  .post(userController.createUsuario)
 
 export { router as usuarioRouter };
